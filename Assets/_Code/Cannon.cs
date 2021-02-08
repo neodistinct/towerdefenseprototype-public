@@ -35,7 +35,6 @@ public class Cannon : MonoBehaviour
     {
         if (_enemySpawner)
         {
-            //Debug.Log("Active enemies available: " + _enemySpawner.activeEnemies.Count);
 
             if (_enemySpawner.activeEnemies.Count > 0)
             {

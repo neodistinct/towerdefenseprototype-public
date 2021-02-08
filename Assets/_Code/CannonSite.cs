@@ -5,14 +5,14 @@ public class CannonSite : MonoBehaviour
     [SerializeField]
     private GameObject cannonPrefab;
 
-    private Renderer _meshRenderer;
+    private Renderer _renderer;
     private Color _originalColor;
-    private bool _siteFree = true;
+    public bool _siteFree = true;
 
     private void Awake()
     {
-        _meshRenderer = GetComponent<Renderer>();
-        _originalColor = _meshRenderer.material.color;
+        _renderer = GetComponent<Renderer>();
+        _originalColor = _renderer.material.color;
 
     }
 
@@ -22,20 +22,19 @@ public class CannonSite : MonoBehaviour
     {
         // If site is not yet occupied - highlight it with blue color
         if (_siteFree) { 
-            _meshRenderer.material.color = new Color(0, 0, 1);
+            _renderer.material.color = new Color(0, 0, 1);
         }
     }
 
     private void OnMouseExit()
     {
-        _meshRenderer.material.color = _originalColor;
+        // Revert to original color
+        _renderer.material.color = _originalColor;
     }
 
     private void OnMouseDown()
     {
-        if (_siteFree && cannonPrefab && GameManager.playerBase.score >= 100) {
-
-            Quaternion direction = Quaternion.LookRotation((new Vector3(8.96f, 0, -6.9043f) - transform.position).normalized, Vector3.up);
+        if (_siteFree && cannonPrefab && GameManager.playerBase.score >= GameManager.BUILD_PRICE) {
 
             Instantiate(cannonPrefab, transform.position, Quaternion.identity);
             _siteFree = false;

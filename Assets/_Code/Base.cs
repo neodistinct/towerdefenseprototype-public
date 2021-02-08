@@ -1,3 +1,4 @@
+using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UI;
@@ -28,6 +29,7 @@ public class Base : MonoBehaviour
     [SerializeField]
     private GameObject placeCannonText;
 
+    private CannonSite[] _cannonSites;
     private int _score = 200;
 
     public int score { 
@@ -39,7 +41,15 @@ public class Base : MonoBehaviour
 
             bool showScoreText = _score >= GameManager.BUILD_PRICE;
             placeCannonText.SetActive(showScoreText);
+
+            if (_cannonSites.Where(site => site._siteFree).Count() == 0) GameManager.ShowRestartPanel(true);
+
         }
+    }
+
+    private void Awake()
+    {
+        _cannonSites = GameObject.FindObjectsOfType<CannonSite>();
     }
 
     private void Start()
@@ -66,7 +76,7 @@ public class Base : MonoBehaviour
             // If we lost - show restar panel
             if (hitPoints == 0)
             {
-                GameManager.ShowRestartPanel();
+                GameManager.ShowRestartPanel(false);
             }
         }
     }
